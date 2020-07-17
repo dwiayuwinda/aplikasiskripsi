@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".InputBrgFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/kdbrg"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Kode Barang : "
+                android:textStyle="bold"
+                android:textColor="@color/steelblue"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/edtTextkdbrg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/namabrg"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Nama Barang : "
+                android:textStyle="bold"
+                android:textColor="@color/steelblue"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/edtTextnamabrg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hrgjual"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="Harga Jual : Rp. "
+                android:textStyle="bold"
+                android:textColor="@color/steelblue"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/edtTexthrgjual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/stokbrg"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Stok Barang : "
+                android:textStyle="bold"
+                android:textColor="@color/steelblue"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/edtTextstokbrg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSimpan"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_bg"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/btnHapus"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="15dp"
+                android:text="Hapus Data"
+                android:textStyle="bold"
+                android:background="@drawable/button_bg"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

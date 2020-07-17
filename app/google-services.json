@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "600497869765",
+    "firebase_url": "https://tkantoberkah.firebaseio.com",
+    "project_id": "tkantoberkah",
+    "storage_bucket": "tkantoberkah.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600497869765:android:e69749dbffa1669d8fb1ac",
+        "android_client_info": {
+          "package_name": "com.example.aplikasiskripsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600497869765-kfb4bthjre6av38bsqdk07is2ddf8gg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aplikasiskripsi",
+            "certificate_hash": "bdee73104fc6d7038798cfced7b6eb39b9f8cb5e"
+          }
+        },
+        {
+          "client_id": "600497869765-gm8tplui142g39mu5amiafvn7bm8k697.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHm319AKtx_65OJ8WWAuAwOOx9ge8ix8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600497869765-gm8tplui142g39mu5amiafvn7bm8k697.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
