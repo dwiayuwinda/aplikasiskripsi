@@ -1,64 +1,52 @@
 package com.example.aplikasiskripsi;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DaftarSuppFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DaftarSuppFragment extends Fragment {
+import java.util.ArrayList;
+
+public class DaftarSuppFragment extends Fragment implements SupplierAdapter.FirebaseDataListener{
+    EditText edtTextSearch;
+    private ArrayList<SupplierDB> daftarsupplier;
+    private RecyclerView recyclerView;
+    private SupplierAdapter adapter;
+    private DatabaseReference myRef;
+    private FirebaseDatabase fireIns;
+    private EditText kdsupp;
+    private EditText namasupp;
+    private EditText alamat;
+    private EditText telepon;
+    private Context context;
+    private LinearLayoutManager linearLayoutManager;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DaftarSuppFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DaftarSuppFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DaftarSuppFragment newInstance(String param1, String param2) {
-        DaftarSuppFragment fragment = new DaftarSuppFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +55,156 @@ public class DaftarSuppFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_daftar_supp, container, false);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        FirebaseApp.initializeApp(getActivity());
+        fireIns = FirebaseDatabase.getInstance();
+        myRef = fireIns.getReference();
+        myRef.child("Pemasok").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                daftarsupplier = new ArrayList<>();
+                for (DataSnapshot mDataSnapshot : snapshot.getChildren()) {
+                    SupplierDB supplier = mDataSnapshot.getValue(SupplierDB.class);
+                    supplier.setKode(mDataSnapshot.getKey());
+                    daftarsupplier.add(supplier);
+                }
+                adapter = new SupplierAdapter(daftarsupplier, getActivity());
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(getActivity(), error.getDetails() + " "
+                        + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        edtTextSearch = view.findViewById(R.id.edtTextSearch);
+        edtTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+
+            }
+        });
         return view;
     }
+
+    private void filter(String text){
+        ArrayList<SupplierDB> filteredList = new ArrayList<>();
+
+        for (SupplierDB item : daftarsupplier){
+            if (item.getNama().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+        adapter.filterList(filteredList);
+    }
+
+    private void dialogUpdateSupplier(final SupplierDB supplier) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Edit Data");
+        View view = getLayoutInflater().inflate(R.layout.layout_editsupp, null);
+
+        kdsupp = view.findViewById(R.id.kdsupp);
+        namasupp = view.findViewById(R.id.namasupp);
+        alamat = view.findViewById(R.id.alamat);
+        telepon = view.findViewById(R.id.telepon);
+
+        kdsupp.setText(supplier.getKode());
+        namasupp.setText(supplier.getNama());
+        alamat.setText(supplier.getAlamat());
+        telepon.setText(supplier.getTelepon());
+        builder.setView(view);
+
+        if (supplier != null) {
+            builder.setPositiveButton("SIMPAN", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    supplier.setKode(kdsupp.getText().toString());
+                    supplier.setNama(namasupp.getText().toString());
+                    supplier.setAlamat(alamat.getText().toString());
+                    supplier.setTelepon(telepon.getText().toString());
+                    updateDataSupplier(supplier);
+                }
+            });
+        }
+        builder.setNegativeButton("BATAL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void updateDataSupplier(SupplierDB supplier) {
+        myRef.child("Pemasok").child(supplier.getKey())
+                .setValue(supplier).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getActivity(), "Data berhasil di update", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void hapusDataSupplier(SupplierDB supplier) {
+        if (myRef != null) {
+            myRef.child("Pemasok").child(supplier.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getActivity(), "Data berhasil di hapus", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDataClick(final SupplierDB supplier, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Pilih Aksi");
+
+        builder.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialogUpdateSupplier(supplier);
+            }
+        });
+
+        builder.setPositiveButton("HAPUS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                hapusDataSupplier(supplier);
+            }
+        });
+
+        builder.setPositiveButton("BATAL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

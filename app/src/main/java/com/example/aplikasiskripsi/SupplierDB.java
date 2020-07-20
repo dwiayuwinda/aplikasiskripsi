@@ -32,13 +32,13 @@ public class SupplierDB implements Serializable {
 
     public void setNama(String nama) { this.nama = nama; }
 
-    public String getHarga() { return alamat; }
+    public String getAlamat() { return alamat; }
 
-    public void setHarga(String alamat) { this.alamat = alamat; }
+    public void setAlamat(String alamat) { this.alamat = alamat; }
 
-    public String getStok() { return telepon; }
+    public String getTelepon() { return telepon; }
 
-    public void setStok(String telepon) { this.telepon = telepon; }
+    public void setTelepon(String telepon) { this.telepon = telepon; }
 
     @Override
     public String toString() {
