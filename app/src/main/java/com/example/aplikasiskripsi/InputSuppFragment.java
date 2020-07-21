@@ -134,7 +134,7 @@ public class InputSuppFragment extends Fragment {
          * ketika data berhasil ditambahkan
          */
         myRef.child("Pemasok")
-                .push()
+                .child(edtTextkdsupp.getText().toString())
                 .setValue(supplier)
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
                     @Override

@@ -12,10 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -25,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button buttonRegister;
     ProgressBar progressBarRegister;
     FirebaseAuth firebaseAuth;
+    private DatabaseReference myRef;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +54,17 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBarRegister.setVisibility(View.GONE);
                         if(task.isSuccessful()) {
-                            firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            firebaseAuth.getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(RegisterActivity.this, "Akun Anda berhasil didaftar. Mohon cek email Anda untuk verifikasi", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Akun Anda berhasil didaftar. Mohon cek email Anda untuk verifikasi",
+                                                Toast.LENGTH_LONG).show();
                                     }else{
-                                        Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterActivity.this,
+                                                task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });

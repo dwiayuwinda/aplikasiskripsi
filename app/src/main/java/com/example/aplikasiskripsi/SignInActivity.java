@@ -20,6 +20,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -30,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
     ProgressBar loading;
     FirebaseAuth firebaseAuth;
     TextView forgotpass;
+    private DatabaseReference myRef;
     private FirebaseAuth.AuthStateListener AuthStateListener;
 
     @Override
@@ -50,7 +57,8 @@ public class SignInActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser == null){
-                    Toast.makeText(SignInActivity.this, "Masukan email dan kata sandi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, "Masukan email dan kata sandi",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -67,15 +75,19 @@ public class SignInActivity extends AppCompatActivity {
                                 loading.setVisibility(View.GONE);
                                 if(task.isSuccessful()) {
                                     if(firebaseAuth.getCurrentUser().isEmailVerified()){
-                                        Toast.makeText(SignInActivity.this, "Anda berhasil masuk dan Email Anda berhasil terverifikasi", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignInActivity.this,
+                                                "Anda berhasil masuk dan Email Anda sudah terverifikasi",
+                                                Toast.LENGTH_LONG).show();
 
                                         Intent i = new Intent(SignInActivity.this,MainActivity.class);
                                         startActivity(i);
                                     }else{
-                                        Toast.makeText(SignInActivity.this, "Silahkan verifikasi Email Anda", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignInActivity.this, "Silahkan verifikasi Email Anda",
+                                                Toast.LENGTH_LONG).show();
                                     }
                                 }else{
-                                    Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SignInActivity.this, task.getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });

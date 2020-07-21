@@ -26,16 +26,18 @@
                     android:id="@+id/tanggal"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Tanggal : "
+                    android:text="Tanggal          : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
 
-                <EditText
-                    android:id="@+id/edtTextTgl"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/autotgl"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 
@@ -149,49 +151,75 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/total"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="Total : Rp."
-                    android:textStyle="bold"
-                    android:textColor="@color/steelblue"
-                    android:textSize="15sp"/>
-
-                <EditText
-                    android:id="@+id/edtTextTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="25dp"
                 android:background="@android:color/holo_blue_light" />
 
-            <TextView
-                android:layout_width="130dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Stok Tersedia      : "
-                android:textColor="@color/redorange"
-                android:textStyle="bold"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-            <TextView
-                android:layout_width="130dp"
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Total                    : Rp."
+                    android:textStyle="bold"
+                    android:textColor="@color/steelblue"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Stok sisa barang : "
-                android:textColor="@color/redorange"
-                android:textStyle="bold"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Stok Tersedia      : "
+                    android:textColor="@color/redorange"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/stoktsd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Stok sisa barang : "
+                    android:textColor="@color/redorange"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/stoksb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

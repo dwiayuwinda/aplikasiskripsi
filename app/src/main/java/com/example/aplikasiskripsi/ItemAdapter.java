@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,12 +44,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView kd_brg,nama_brg,hrg_jual,stok_brg;
+        CardView cvbrg;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             kd_brg = itemView.findViewById(R.id.kd_brg);
             nama_brg = itemView.findViewById(R.id.nama_brg);
             hrg_jual = itemView.findViewById(R.id.hrg_jual);
             stok_brg = itemView.findViewById(R.id.stok_brg);
+            cvbrg = itemView.findViewById(R.id.cvbrg);
+
         }
     }
 
@@ -91,7 +95,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     private void hapusDataBarang(BarangDB barang) {
         if (myRef != null) {
-            myRef.child("Barang").child(barang.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            myRef.child("Barang").child(barang.getKode()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(context, "Data dihapus", Toast.LENGTH_LONG).show();

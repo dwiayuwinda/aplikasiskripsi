@@ -67,7 +67,7 @@ public class InputBrgFragment extends Fragment {
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isEmpty(edtTextkdbrg.getText().toString().trim())
+                if(!isEmpty(edtTextkdbrg.getText().toString())
                         && !isEmpty(edtTextnamabrg.getText().toString())
                         && !isEmpty(edtTexthrgjual.getText().toString())
                         && !isEmpty(edtTextstokbrg.getText().toString()))
@@ -116,7 +116,7 @@ public class InputBrgFragment extends Fragment {
          * ketika data berhasil ditambahkan
          */
         myRef.child("Barang")
-                .push()
+                .child(edtTextkdbrg.getText().toString())
                 .setValue(barang)
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
             @Override
