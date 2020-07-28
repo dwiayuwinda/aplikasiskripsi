@@ -29,11 +29,7 @@ import java.util.concurrent.Executor;
 import static android.text.TextUtils.isEmpty;
 import static androidx.core.content.ContextCompat.getSystemService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InputBrgFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class InputBrgFragment extends Fragment {
     EditText edtTextkdbrg;
     EditText edtTextnamabrg;
@@ -116,7 +112,7 @@ public class InputBrgFragment extends Fragment {
          * ketika data berhasil ditambahkan
          */
         myRef.child("Barang")
-                .child(edtTextkdbrg.getText().toString())
+                .child(edtTextnamabrg.getText().toString())
                 .setValue(barang)
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
             @Override

@@ -71,7 +71,5 @@
             android:text="Daftar"
             android:textSize="15sp" />
 
-
-
     </LinearLayout>
 </ScrollView>

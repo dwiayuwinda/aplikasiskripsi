@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DaftarSuppFragment extends Fragment implements SupplierAdapter.FirebaseDataListener{
+public class DaftarSuppFragment extends Fragment implements SupplierAdapter.ItemClickListener{
     EditText edtTextSearch;
     private ArrayList<SupplierDB> daftarsupplier;
     private RecyclerView recyclerView;
@@ -42,6 +42,7 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
     private EditText namasupp;
     private EditText alamat;
     private EditText telepon;
+    private EditText ket;
     private Context context;
     private LinearLayoutManager linearLayoutManager;
 
@@ -74,7 +75,7 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
                     supplier.setKode(mDataSnapshot.getKey());
                     daftarsupplier.add(supplier);
                 }
-                adapter = new SupplierAdapter(daftarsupplier, getActivity());
+                adapter = new SupplierAdapter(daftarsupplier, getActivity(), DaftarSuppFragment.this);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -119,6 +120,22 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
         adapter.filterList(filteredList);
     }
 
+    @Override
+    public void onDataClick(final SupplierDB supplier) {
+        String[] options = {"Edit","Hapus"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Pilih Aksi").setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if (i==0){
+                    dialogUpdateSupplier(supplier);
+                }else if (i==1){
+                    hapusDataSupplier(supplier);
+                }
+            }
+        }).show();
+    }
+
     private void dialogUpdateSupplier(final SupplierDB supplier) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Edit Data");
@@ -128,25 +145,27 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
         namasupp = view.findViewById(R.id.namasupp);
         alamat = view.findViewById(R.id.alamat);
         telepon = view.findViewById(R.id.telepon);
+        ket = view.findViewById(R.id.ket);
 
         kdsupp.setText(supplier.getKode());
         namasupp.setText(supplier.getNama());
         alamat.setText(supplier.getAlamat());
         telepon.setText(supplier.getTelepon());
+        ket.setText(supplier.getKet());
         builder.setView(view);
 
-        if (supplier != null) {
-            builder.setPositiveButton("SIMPAN", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("SIMPAN", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     supplier.setKode(kdsupp.getText().toString());
                     supplier.setNama(namasupp.getText().toString());
                     supplier.setAlamat(alamat.getText().toString());
                     supplier.setTelepon(telepon.getText().toString());
+                    supplier.setKet(ket.getText().toString());
                     updateDataSupplier(supplier);
                 }
-            });
-        }
+        });
+
         builder.setNegativeButton("BATAL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -158,7 +177,7 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
     }
 
     private void updateDataSupplier(SupplierDB supplier) {
-        myRef.child("Pemasok").child(supplier.getKey())
+        myRef.child("Pemasok").child(supplier.getKode())
                 .setValue(supplier).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -168,43 +187,13 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Fire
     }
 
     private void hapusDataSupplier(SupplierDB supplier) {
-        if (myRef != null) {
-            myRef.child("Pemasok").child(supplier.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.child("Pemasok").child(supplier.getKode()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(getActivity(), "Data berhasil di hapus", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Data berhasil di hapus", Toast.LENGTH_LONG).show();
                 }
-            });
-        }
+        });
     }
 
-    @Override
-    public void onDataClick(final SupplierDB supplier, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Pilih Aksi");
-
-        builder.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialogUpdateSupplier(supplier);
-            }
-        });
-
-        builder.setPositiveButton("HAPUS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                hapusDataSupplier(supplier);
-            }
-        });
-
-        builder.setPositiveButton("BATAL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
 
 }

@@ -21,8 +21,8 @@
 
             <Button
                 android:id="@+id/btnTgl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
                 android:text="Pilih"
                 android:textColor="@color/white"
                 android:background="@drawable/button_bg"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <androidx.core.widget.NestedScrollView

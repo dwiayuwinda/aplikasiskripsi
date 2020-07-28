@@ -37,36 +37,15 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="15sp"/>
+                    android:textSize="16sp"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/nopen"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="No Penjualan : "
-                    android:textStyle="bold"
-                    android:textColor="@color/steelblue"
-                    android:textSize="15sp"/>
-
-                <EditText
-                    android:id="@+id/edtTextnopen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/kdbrg"
@@ -77,18 +56,21 @@
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
 
-                <EditText
-                    android:id="@+id/edtTextkdbrg"
+                <TextView
+                    android:id="@+id/tvkdbrg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/namabrg"
@@ -101,16 +83,27 @@
 
                 <EditText
                     android:id="@+id/edtTextnamabrg"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btnLihat"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"
+                    android:text="Lihat"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_bg"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/hrgbrg"
@@ -121,11 +114,13 @@
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
 
-                <EditText
-                    android:id="@+id/edtTexthrgbrg"
+                <TextView
+                    android:id="@+id/tvhrgbrg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -147,14 +142,15 @@
                     android:id="@+id/edtTextjmlbeli"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="30dp"
                 android:background="@android:color/holo_blue_light" />
 
             <LinearLayout
@@ -175,78 +171,57 @@
                     android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:text="Stok Tersedia      : "
-                    android:textColor="@color/redorange"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/stoktsd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:text="Stok sisa barang : "
-                    android:textColor="@color/redorange"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/stoksb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="120dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnProses"
+                    android:id="@+id/btnCek"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Proses"
+                    android:text="Cek"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:background="@drawable/button_bg"
                     android:textSize="15sp"/>
 
                 <Button
-                    android:id="@+id/btnHapus"
+                    android:id="@+id/btnProses"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:layout_marginLeft="15dp"
-                    android:text="Hapus Data"
+                    android:text="Proses"
                     android:textStyle="bold"
                     android:background="@drawable/button_bg"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnHapus"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Hapus"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_bg"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
         </LinearLayout>

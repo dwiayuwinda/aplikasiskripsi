@@ -1,11 +1,11 @@
 package com.example.aplikasiskripsi;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +17,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -34,18 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DaftarBrgFragment extends Fragment {
+public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClickListener{
     EditText edtTextSearch;
-    private ArrayList<BarangDB> daftarbarang;
+    ArrayList<BarangDB> daftarbarang;
     private RecyclerView recyclerView;
-    private ItemAdapter adapter;
+    ItemAdapter adapter;
     private DatabaseReference myRef;
     private FirebaseDatabase fireIns;
-    private EditText kode_brg;
-    private EditText nama_brg;
-    private EditText hrg_jual;
-    private EditText stok_brg;
-    private Context context;
     private LinearLayoutManager linearLayoutManager;
 
     private TabLayout tabLayout;
@@ -74,10 +68,10 @@ public class DaftarBrgFragment extends Fragment {
                 daftarbarang = new ArrayList<>();
                 for (DataSnapshot mDataSnapshot : snapshot.getChildren()) {
                     BarangDB barang = mDataSnapshot.getValue(BarangDB.class);
-                    barang.setKode(mDataSnapshot.getKey());
+                    barang.setNama(mDataSnapshot.getKey());
                     daftarbarang.add(barang);
                 }
-                adapter = new ItemAdapter(daftarbarang, getActivity());
+                adapter = new ItemAdapter(daftarbarang, getActivity(), DaftarBrgFragment.this);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -106,12 +100,88 @@ public class DaftarBrgFragment extends Fragment {
 
     private void filter(String text){
         ArrayList<BarangDB> filteredList = new ArrayList<>();
-
         for (BarangDB item : daftarbarang){
             if (item.getNama().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
             }
         }
         adapter.filterList(filteredList);
+    }
+
+    @Override
+    public void onDataClick(final BarangDB barang) {
+        String[] options = {"Edit","Hapus"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Pilih Aksi").setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if (i==0){
+                    dialogUpdateBarang(barang);
+                }else if (i==1){
+                    hapusDataBarang(barang);
+                }
+            }
+        }).show();
+    }
+
+    private void hapusDataBarang(BarangDB barang) {
+        myRef.child("Barang")
+                .child(barang.getNama())
+                .setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(requireContext(), "Data dihapus", Toast.LENGTH_LONG).show();
+                }
+                });
+    }
+
+    private void dialogUpdateBarang(final BarangDB barang) {
+        final EditText kode_brg,nama_brg,hrg_jual,stok_brg;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Edit Data");
+        View view;
+        view = getLayoutInflater().inflate(R.layout.layout_editbarang, null);
+
+        kode_brg = view.findViewById(R.id.kode_brg);
+        nama_brg = view.findViewById(R.id.nama_brg);
+        hrg_jual = view.findViewById(R.id.hrg_jual);
+        stok_brg = view.findViewById(R.id.stok_brg);
+
+        kode_brg.setText(barang.getKode());
+        nama_brg.setText(barang.getNama());
+        hrg_jual.setText(barang.getHarga());
+        stok_brg.setText(barang.getStok());
+        builder.setView(view);
+
+        builder.setPositiveButton("SIMPAN", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    barang.setKode(kode_brg.getText().toString().trim());
+                    barang.setNama(nama_brg.getText().toString().trim());
+                    barang.setHarga(hrg_jual.getText().toString().trim());
+                    barang.setStok(stok_brg.getText().toString().trim());
+                    updateDataBarang(barang);
+                }
+        });
+
+        builder.setNegativeButton("BATAL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void updateDataBarang(BarangDB barang) {
+        myRef.child("Barang")
+                .child(barang.getNama())
+                .setValue(barang).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getActivity(), "Data berhasil di update", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

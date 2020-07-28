@@ -33,41 +33,13 @@ public class InputSuppFragment extends Fragment {
     EditText edtTextnamasupp;
     EditText edtTextalamat;
     EditText edtTexttelp;
+    EditText edtTextket;
     Button btnSimpan, btnHapus;
     private DatabaseReference myRef;
     private FirebaseDatabase fireIns;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public InputSuppFragment() { }
-
-    public static InputSuppFragment newInstance(String param1, String param2) {
-        InputSuppFragment fragment = new InputSuppFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +52,7 @@ public class InputSuppFragment extends Fragment {
         edtTextnamasupp = view.findViewById(R.id.edtTextnamasupp);
         edtTextalamat = view.findViewById(R.id.edtTextalamat);
         edtTexttelp = view.findViewById(R.id.edtTexttelp);
+        edtTextket = view.findViewById(R.id.edtTextket);
         btnSimpan = view.findViewById(R.id.btnSimpan);
         btnHapus = view.findViewById(R.id.btnHapus);
 
@@ -92,11 +65,13 @@ public class InputSuppFragment extends Fragment {
                 if(!isEmpty(edtTextkdsupp.getText().toString())
                         && !isEmpty(edtTextnamasupp.getText().toString())
                         && !isEmpty(edtTextalamat.getText().toString())
+                        && !isEmpty(edtTexttelp.getText().toString())
                         && !isEmpty(edtTexttelp.getText().toString()))
                     submitSupplier(new SupplierDB(edtTextkdsupp.getText().toString(),
                             edtTextnamasupp.getText().toString(),
                             edtTextalamat.getText().toString(),
-                            edtTexttelp.getText().toString()));
+                            edtTexttelp.getText().toString(),
+                            edtTextket.getText().toString()));
                 else
                     Snackbar.make(btnSimpan, "Data pemasok tidak boleh kosong",
                             Snackbar.LENGTH_LONG).show();
@@ -114,6 +89,7 @@ public class InputSuppFragment extends Fragment {
                 edtTextnamasupp.setText(" ");
                 edtTextalamat.setText(" ");
                 edtTexttelp.setText(" ");
+                edtTextket.setText(" ");
 
                 Snackbar.make(btnHapus, "Data sudah dihapus",
                         Snackbar.LENGTH_LONG).show();
@@ -143,6 +119,7 @@ public class InputSuppFragment extends Fragment {
                         edtTextnamasupp.setText("");
                         edtTextalamat.setText("");
                         edtTexttelp.setText("");
+                        edtTextket.setText("");
                         Snackbar.make(btnSimpan, "Data berhasil ditambahkan", Snackbar.LENGTH_LONG).show();
                     }
                 });

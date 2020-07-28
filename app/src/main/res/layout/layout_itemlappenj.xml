@@ -24,7 +24,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/no_pen"
+            android:id="@+id/key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/steelblue"
@@ -51,7 +51,7 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/hrg_jual"
+            android:id="@+id/hrg_brg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/steelblue"

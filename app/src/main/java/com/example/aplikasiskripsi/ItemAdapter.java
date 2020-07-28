@@ -3,6 +3,8 @@ package com.example.aplikasiskripsi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,26 +21,26 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
 
-    private ArrayList<BarangDB> daftarbarang;
-    Context context;
-    private ProgressDialog progressDialog;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    ArrayList<BarangDB> daftarbarang;
+    ItemClickListener listener;
 
-    public ItemAdapter(ArrayList<BarangDB> b, Context context){
-        this.context = context;
+    public ItemAdapter(ArrayList<BarangDB> b, Context c, ItemClickListener listener){
         this.daftarbarang = b;
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("Mohon tunggu");
-        progressDialog.setCanceledOnTouchOutside(false);
+        this.listener = listener;
+    }
+
+    public interface ItemClickListener {
+        void onDataClick(BarangDB barang);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -52,14 +54,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             hrg_jual = itemView.findViewById(R.id.hrg_jual);
             stok_brg = itemView.findViewById(R.id.stok_brg);
             cvbrg = itemView.findViewById(R.id.cvbrg);
-
         }
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item,parent,false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_item,parent,false));
     }
 
     @Override
@@ -72,84 +74,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDataClick(barang, holder);
+                listener.onDataClick(barang);
             }
         });
-    }
-
-    private void onDataClick(final BarangDB barang, MyViewHolder holder) {
-        String[] options = {"Edit","Hapus"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Pilih Aksi").setItems(options, new DialogInterface.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int i) {
-                if (i==0){
-                    dialogUpdateBarang(barang);
-                }else if (i==1){
-                    hapusDataBarang(barang);
-                }
-            }
-        })
-        .show();
-    }
-
-    private void hapusDataBarang(BarangDB barang) {
-        if (myRef != null) {
-            myRef.child("Barang").child(barang.getKode()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(context, "Data dihapus", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }
-
-    private void dialogUpdateBarang(final BarangDB barang) {
-        final EditText kode_brg,nama_brg,hrg_jual,stok_brg;
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Edit Data");
-        View view;
-        view = LayoutInflater.from(context).inflate(R.layout.layout_editbarang, null);
-
-        kode_brg = view.findViewById(R.id.kode_brg);
-        nama_brg = view.findViewById(R.id.nama_brg);
-        hrg_jual = view.findViewById(R.id.hrg_jual);
-        stok_brg = view.findViewById(R.id.stok_brg);
-
-        kode_brg.setText(barang.getKode());
-        nama_brg.setText(barang.getNama());
-        hrg_jual.setText(barang.getHarga());
-        stok_brg.setText(barang.getStok());
-        builder.setView(view);
-
-        if (barang != null) {
-            builder.setPositiveButton("SIMPAN", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    barang.setKode(kode_brg.getText().toString());
-                    barang.setNama(nama_brg.getText().toString());
-                    barang.setHarga(hrg_jual.getText().toString());
-                    barang.setStok(stok_brg.getText().toString());
-                    updateDataBarang(barang);
-                }
-            });
-        }
-        builder.setNegativeButton("BATAL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
-
-    private void updateDataBarang(BarangDB barang) {
-        myRef.child("Barang").child(barang.getKode())
-                .setValue(barang).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "Data berhasil di update", Toast.LENGTH_LONG).show();
+            public boolean onLongClick(View v) {
+                String string = daftarbarang.get(position).getNama();
+                ClipboardManager manager = (ClipboardManager) v.getContext()
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", string);
+                manager.setPrimaryClip(clipData);
+                Toast.makeText(v.getContext(), "Teks berhasil di copy", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
     }
@@ -163,7 +100,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         daftarbarang = filteredList;
         notifyDataSetChanged();
     }
-
-
-
 }

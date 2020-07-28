@@ -46,6 +46,10 @@
     <color name="khaki">#f0e68c</color>
     <color name="darkkhaki">#bdb76b</color>
     <color name="limegreen">#32cd32</color>
+    <color name="olympic">#008ECC</color>
+    <color name="saphire">#0F52BA</color>
+    <color name="azure">#0080FE</color>
+    <color name="carolina">#57a0d2</color>
     <color name="buttonDefault">#4682b4</color>
     <color name="buttonClicked">#4682b4</color>
     <color name="buttonFocused">#4682b4</color>

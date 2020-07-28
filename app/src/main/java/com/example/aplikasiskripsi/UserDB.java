@@ -2,7 +2,7 @@ package com.example.aplikasiskripsi;
 
 import java.io.Serializable;
 
-public class UserDB implements Serializable {
+public class UserDB{
     private String email;
     private String password;
     private String key;

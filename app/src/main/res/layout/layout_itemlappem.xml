@@ -24,7 +24,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/no_pem"
+            android:id="@+id/key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/steelblue"
@@ -69,7 +69,7 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/quantity"
+            android:id="@+id/kuantitas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/steelblue"

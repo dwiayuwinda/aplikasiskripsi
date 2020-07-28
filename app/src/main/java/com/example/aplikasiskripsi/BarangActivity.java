@@ -19,7 +19,7 @@ public class BarangActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barang);
         tabLayout = findViewById(R.id.tabLayout);
-        tabInputBrg = findViewById(R.id.tabTransPemb);
+        tabInputBrg = findViewById(R.id.tabInputBrg);
         tabDaftarBrg = findViewById(R.id.tabDaftarBrg);
         viewPager = findViewById(R.id.viewPager);
 

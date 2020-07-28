@@ -42,9 +42,6 @@ public class BarangDB implements Serializable {
 
     @Override
     public String toString() {
-        return " "+kode+"\n" +
-                " "+nama +"\n" +
-                " "+harga + "\n" +
-                " "+stok;
+        return " "+kode+"\n" + " "+nama+"\n" + " "+harga+ "\n" + " "+stok;
     }
 }
