@@ -72,7 +72,7 @@ public class DaftarSuppFragment extends Fragment implements SupplierAdapter.Item
                 daftarsupplier = new ArrayList<>();
                 for (DataSnapshot mDataSnapshot : snapshot.getChildren()) {
                     SupplierDB supplier = mDataSnapshot.getValue(SupplierDB.class);
-                    supplier.setKode(mDataSnapshot.getKey());
+                    supplier.setNama(mDataSnapshot.getKey());
                     daftarsupplier.add(supplier);
                 }
                 adapter = new SupplierAdapter(daftarsupplier, getActivity(), DaftarSuppFragment.this);

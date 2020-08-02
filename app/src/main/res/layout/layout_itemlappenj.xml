@@ -69,6 +69,15 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
+            android:id="@+id/stsisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/steelblue"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class LapPenjFragment extends Fragment {
     TextView tgl;
@@ -79,7 +80,10 @@ public class LapPenjFragment extends Fragment {
                         newDate.set(tahun, bulan, tanggal);
                         tgl.setText(dateFormatter.format(newDate.getTime()));
 
-                        myRef.child("Penjualan").addValueEventListener(new ValueEventListener() {
+                        String selectedTgl = tgl.getText().toString();
+                        myRef = firedb.getInstance().getReference();
+                        myRef.child("Penjualan").orderByChild("tgl").equalTo(selectedTgl)
+                                .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 riwayatpenj = new ArrayList<>();

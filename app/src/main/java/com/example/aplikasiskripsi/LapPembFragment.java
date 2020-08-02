@@ -57,15 +57,6 @@ public class LapPembFragment extends Fragment {
         tgl = view.findViewById(R.id.tgl);
         btnTgl = view.findViewById(R.id.btnTgl);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-
-        btnTgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDateDialog();
-            }
-        });
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -75,39 +66,48 @@ public class LapPembFragment extends Fragment {
         FirebaseApp.initializeApp(getActivity());
         firedb = FirebaseDatabase.getInstance();
         myRef = firedb.getReference();
-        myRef.child("Pembelian").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                riwayatpemb = new ArrayList<>();
-                for (DataSnapshot mDataSnapshot : snapshot.getChildren()) {
-                    PembelianDB pembelian = mDataSnapshot.getValue(PembelianDB.class);
-                    pembelian.setKey(mDataSnapshot.getKey());
-                    riwayatpemb.add(pembelian);
-                }
-                adapter = new PembelianAdapter(riwayatpemb, getActivity());
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
 
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+
+        btnTgl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), error.getDetails() + " "
-                        + error.getMessage(), Toast.LENGTH_LONG).show();
+            public void onClick(View view) {
+                Calendar newcal = Calendar.getInstance();
+                datePickerDialog = new DatePickerDialog( getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int tahun, int bulan, int tanggal) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(tahun, bulan, tanggal);
+                        tgl.setText(dateFormatter.format(newDate.getTime()));
+
+                        String selectedTgl = tgl.getText().toString();
+                        myRef = firedb.getInstance().getReference();
+                        myRef.child("Pembelian").orderByChild("tgl").equalTo(selectedTgl)
+                                .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                riwayatpemb = new ArrayList<>();
+                                for (DataSnapshot mDataSnapshot : snapshot.getChildren()) {
+                                    PembelianDB pembelian = mDataSnapshot.getValue(PembelianDB.class);
+                                    pembelian.setKey(mDataSnapshot.getKey());
+                                    riwayatpemb.add(pembelian);
+                                }
+                                adapter = new PembelianAdapter(riwayatpemb, getActivity());
+                                recyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getActivity(), error.getDetails() + " "
+                                        + error.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                },newcal.get(Calendar.YEAR), newcal.get(Calendar.MONTH), newcal.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
         return view;
-    }
-    private void showDateDialog(){
-        Calendar newcal = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog( getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int tahun, int bulan, int tanggal) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(tahun, bulan, tanggal);
-                tgl.setText(dateFormatter.format(newDate.getTime()));
-            }
-        },newcal.get(Calendar.YEAR), newcal.get(Calendar.MONTH), newcal.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-
     }
 }

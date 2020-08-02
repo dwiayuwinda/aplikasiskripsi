@@ -45,6 +45,8 @@ public class TransPenjFragment extends Fragment{
     TextView tvkdbrg;
     TextView tvhrgbrg;
     TextView totalpj;
+    TextView tvstoktsd;
+    TextView tvstoksisa;
     EditText edtTextnamabrg;
     EditText edtTextjmlbeli;
     Button btnLihat, btnCek, btnProses, btnHapus;
@@ -64,6 +66,8 @@ public class TransPenjFragment extends Fragment{
         tvhrgbrg = view.findViewById(R.id.tvhrgbrg);
         totalpj = view.findViewById(R.id.total);
         tvkdbrg = view.findViewById(R.id.tvkdbrg);
+        tvstoktsd = view.findViewById(R.id.tvstoktsd);
+        tvstoksisa = view.findViewById(R.id.tvstoksisa);
         edtTextjmlbeli = view.findViewById(R.id.edtTextjmlbeli);
         btnLihat = view.findViewById(R.id.btnLihat);
         btnCek = view.findViewById(R.id.btnCek);
@@ -78,6 +82,14 @@ public class TransPenjFragment extends Fragment{
         FirebaseApp.initializeApp(getActivity());
         firedb = FirebaseDatabase.getInstance();
         myRef = firedb.getReference();
+
+        //Register service
+        //Intent service = new Intent(getActivity(), ListenOrder.class);
+        //startService(service);
+
+        //CallService
+        //Intent service = new Intent(getActivity(), ListenOrder.class);
+        //startService(service);
 
         btnLihat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +110,29 @@ public class TransPenjFragment extends Fragment{
                         BarangDB barang = snapshot.getValue(BarangDB.class);
                         tvkdbrg.setText(barang.getKode());
                         tvhrgbrg.setText(barang.getHarga());
-
+                        tvstoktsd.setText(barang.getStok());
 
                         String jmlbeli = edtTextjmlbeli.getText().toString().trim();
                         String hrgbrg = tvhrgbrg.getText().toString().trim();
+                        String stoktsd = tvstoktsd.getText().toString().trim();
 
+                        long stsd = Long.parseLong(stoktsd);
+                        long jmlb = Long.parseLong(jmlbeli);
+                        long sisa = (stsd-jmlb);
 
-                        double jb =Double.parseDouble(jmlbeli);
+                        if (sisa <= 0){
+                            Snackbar.make(btnCek, "Stok habis, transaksi tidak dapat dilakukan", Snackbar.LENGTH_LONG).show();
+                            edtTextjmlbeli.setText(" ");
+                            tvstoksisa.setText(" ");
+                        } else if(sisa == 5 || sisa == 4 || sisa == 3 || sisa == 2 || sisa == 1){
+                            Snackbar.make(btnCek, "Stok segera habis, silahkan hubungi pemasok", Snackbar.LENGTH_LONG).show();
+                            tvstoksisa.setText(" "+sisa);
+                        } else{
+                            tvstoksisa.setText(" "+sisa);
+                        }
+
+                        double jb = Double.parseDouble(jmlbeli);
                         double hb = Double.parseDouble(hrgbrg);
-
                         double total = (jb*hb);
                         totalpj.setText(" "+total);
                     }
@@ -117,6 +143,7 @@ public class TransPenjFragment extends Fragment{
                                 + error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
             }
         });
 
@@ -128,13 +155,15 @@ public class TransPenjFragment extends Fragment{
                         && !isEmpty(tvhrgbrg.getText().toString())
                         && !isEmpty(totalpj.getText().toString())
                         && !isEmpty(edtTextnamabrg.getText().toString())
-                        && !isEmpty(edtTextjmlbeli.getText().toString()))
+                        && !isEmpty(edtTextjmlbeli.getText().toString())
+                        && !isEmpty(tvstoksisa.getText().toString()))
                     submitPenj(new PenjualanDB(autotgl.getText().toString(),
                             tvkdbrg.getText().toString(),
                             tvhrgbrg.getText().toString(),
                             totalpj.getText().toString(),
                             edtTextnamabrg.getText().toString(),
-                            edtTextjmlbeli.getText().toString()));
+                            edtTextjmlbeli.getText().toString(),
+                            tvstoksisa.getText().toString()));
 
 
 
@@ -154,6 +183,8 @@ public class TransPenjFragment extends Fragment{
             public void onClick(View v) {
                 tvkdbrg.setText(" ");
                 tvhrgbrg.setText(" ");
+                tvstoktsd.setText(" ");
+                tvstoksisa.setText(" ");
                 totalpj.setText(" ");
                 edtTextnamabrg.setText(" ");
                 edtTextjmlbeli.setText(" ");
@@ -185,6 +216,8 @@ public class TransPenjFragment extends Fragment{
                     public void onSuccess(Void aVoid) {
                         tvkdbrg.setText(" ");
                         tvhrgbrg.setText(" ");
+                        tvstoktsd.setText(" ");
+                        tvstoksisa.setText(" ");
                         totalpj.setText(" ");
                         edtTextnamabrg.setText(" ");
                         edtTextjmlbeli.setText(" ");

@@ -22,7 +22,7 @@
                 android:id="@+id/kdsupp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Kode Pemasok : "
+                android:text="Kode Pemasok  : "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>
@@ -64,9 +64,9 @@
 
             <TextView
                 android:id="@+id/alamat"
-                android:layout_width="70dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Alamat : "
+                android:text="Alamat                : "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>
@@ -86,9 +86,9 @@
 
             <TextView
                 android:id="@+id/telepon"
-                android:layout_width="70dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Telepon : "
+                android:text="Telepon              :"
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>
@@ -108,9 +108,9 @@
 
             <TextView
                 android:id="@+id/keterangan"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Keterangan : "
+                android:text="Keterangan        : "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>

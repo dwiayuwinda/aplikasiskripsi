@@ -9,18 +9,20 @@ public class PenjualanDB implements Serializable {
     private String hrgbrg;
     private String jmlbeli;
     private String total;
+    private String stsisa;
     private String key;
 
     public PenjualanDB(){}
 
     public PenjualanDB(String tgl, String kdbrg, String hrgbrg,
-                       String total, String namabrg, String jmlbeli) {
+                       String total, String namabrg, String jmlbeli, String stsisa) {
         this.tgl = tgl;
         this.kdbrg = kdbrg;
         this.namabrg = namabrg;
         this.hrgbrg = hrgbrg;
         this.jmlbeli = jmlbeli;
         this.total = total;
+        this.stsisa = stsisa;
     }
 
     public String getTgl() {return tgl;}
@@ -43,6 +45,10 @@ public class PenjualanDB implements Serializable {
 
     public void setJmlbeli(String jmlbeli) {this.jmlbeli = jmlbeli;}
 
+    public String getSisa() {return stsisa;}
+
+    public void setSisa(String stsisa) {this.stsisa = stsisa;}
+
     public String getTotal() {return total;}
 
     public void setTotal(String total) {this.total = total;}
@@ -58,6 +64,7 @@ public class PenjualanDB implements Serializable {
                 + " "+kdbrg+ "\n"
                 + " "+hrgbrg+ "\n"
                 + " "+jmlbeli+ "\n"
+                + " "+stsisa+ "\n"
                 + " "+total;
     }
 }

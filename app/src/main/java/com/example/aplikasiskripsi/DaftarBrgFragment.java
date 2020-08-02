@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,10 +36,11 @@ import java.util.ArrayList;
 
 public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClickListener{
     EditText edtTextSearch;
+    TextView stok_brg;
     ArrayList<BarangDB> daftarbarang;
     private RecyclerView recyclerView;
     ItemAdapter adapter;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, myRef_penj, myRef_pemb;
     private FirebaseDatabase fireIns;
     private LinearLayoutManager linearLayoutManager;
 
@@ -52,6 +54,7 @@ public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClick
         View view = inflater.inflate(R.layout.fragment_daftar_brg, container, false);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+        stok_brg = view.findViewById(R.id.stok_brg);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -83,6 +86,44 @@ public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClick
                         + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        myRef_penj = fireIns.getReference();
+        myRef_penj.child("Penjualan").orderByChild("stsisa").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PenjualanDB penj = snapshot.getValue(PenjualanDB.class);
+                if (penj.getSisa() != null){
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(), error.getDetails() + " "
+                        + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /**String stok = stok_brg.getText().toString().trim();
+        myRef_pemb = fireIns.getReference();
+        myRef_pemb.child("Pembelian").orderByChild("").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PembelianDB pemb = snapshot.getValue(PembelianDB.class);
+                if (pemb.getKuantitas() != null){
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });**/
+
 
         edtTextSearch = view.findViewById(R.id.edtTextSearch);
         edtTextSearch.addTextChangedListener(new TextWatcher() {

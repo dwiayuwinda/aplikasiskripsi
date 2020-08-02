@@ -26,7 +26,7 @@
                     android:id="@+id/tanggal"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Tanggal           : "
+                    android:text="Tanggal              : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
@@ -51,7 +51,7 @@
                     android:id="@+id/kdsupp"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Kode Pemasok : "
+                    android:text="Kode Pemasok  : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/namapemasok"
-                    android:layout_width="110dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Nama Pemasok : "
                     android:textStyle="bold"
@@ -82,7 +82,7 @@
 
                 <EditText
                     android:id="@+id/edtTextnamasupp"
-                    android:layout_width="150dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black" />
 
@@ -93,6 +93,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/white"
                     android:text="Lihat"
+                    android:textAllCaps="false"
                     android:textStyle="bold"
                     android:background="@drawable/button_bg"/>
 
@@ -106,9 +107,9 @@
 
                 <TextView
                     android:id="@+id/kdbrg"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Kode Barang : "
+                    android:text="Kode Barang      : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
@@ -130,16 +131,16 @@
 
                 <TextView
                     android:id="@+id/namabrg"
-                    android:layout_width="90dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Nama Barang : "
+                    android:text="Nama Barang     : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
 
                 <EditText
                     android:id="@+id/edtTextnamabrg"
-                    android:layout_width="170dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black" />
 
@@ -150,6 +151,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/white"
                     android:text="Lihat"
+                    android:textAllCaps="false"
                     android:textStyle="bold"
                     android:background="@drawable/button_bg"/>
 
@@ -162,9 +164,9 @@
 
                 <TextView
                     android:id="@+id/kuantitas"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Kuantitas        : "
+                    android:text="Kuantitas            : "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
@@ -184,9 +186,9 @@
 
                 <TextView
                     android:id="@+id/hrgbeli"
-                    android:layout_width="125dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Harga Beli      : Rp. "
+                    android:text="Harga Beli           : Rp. "
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>
@@ -212,10 +214,10 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_width="125dp"
+                    android:layout_width="120dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
-                    android:text="Total                : Rp."
+                    android:text="Total                     : Rp."
                     android:textStyle="bold"
                     android:textColor="@color/steelblue"
                     android:textSize="15sp"/>

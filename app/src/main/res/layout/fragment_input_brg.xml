@@ -22,7 +22,7 @@
                 android:id="@+id/kdbrg"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Kode Barang : "
+                android:text="Kode Barang  : "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>
@@ -64,9 +64,9 @@
 
             <TextView
                 android:id="@+id/hrgjual"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Harga Jual : Rp. "
+                android:text="Harga Jual      : Rp. "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>
@@ -86,9 +86,9 @@
 
             <TextView
                 android:id="@+id/stokbrg"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="Stok Barang : "
+                android:text="Stok Barang    : "
                 android:textStyle="bold"
                 android:textColor="@color/steelblue"
                 android:textSize="15sp"/>

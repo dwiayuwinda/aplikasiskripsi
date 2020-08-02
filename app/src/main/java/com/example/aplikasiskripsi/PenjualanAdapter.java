@@ -27,7 +27,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tgl,key,kd_brg,nama_brg,hrg_brg,jml_beli, total;
+        TextView tgl,key,kd_brg,nama_brg,hrg_brg,jml_beli,stsisa,total;
         CardView cvlappenj;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,6 +37,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
             nama_brg = itemView.findViewById(R.id.nama_brg);
             hrg_brg = itemView.findViewById(R.id.hrg_brg);
             jml_beli = itemView.findViewById(R.id.jml_beli);
+            stsisa = itemView.findViewById(R.id.stsisa);
             total = itemView.findViewById(R.id.total);
             cvlappenj = itemView.findViewById(R.id.cvlappenj);
         }
@@ -57,6 +58,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
         holder.nama_brg.setText("Nama Barang: " + riwayatpenj.get(position).getNamabrg());
         holder.hrg_brg.setText("Harga Barang: "+ riwayatpenj.get(position).getHrgbrg());
         holder.jml_beli.setText("Jumlah beli: "+ riwayatpenj.get(position).getJmlbeli());
+        holder.stsisa.setText("Stok sisa barang: "+ riwayatpenj.get(position).getSisa());
         holder.total.setText("Total: " + riwayatpenj.get(position).getTotal());
     }
 
@@ -64,6 +66,5 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
     public int getItemCount() {
         return riwayatpenj.size();
     }
-
 
 }

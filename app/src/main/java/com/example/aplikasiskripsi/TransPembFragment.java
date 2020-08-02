@@ -112,8 +112,7 @@ public class TransPembFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 final String namabrg = edtTextnamabrg.getText().toString().trim();
-                final String namasupp = edtTextnamasupp.getText().toString().trim();
-                myRef_brg = firedb.getInstance().getReference();
+                myRef_brg = firedb.getReference();
                 myRef_brg.child("Barang").child(namabrg).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -128,7 +127,8 @@ public class TransPembFragment extends Fragment  {
                     }
                 });
 
-                myRef_supp = firedb.getInstance().getReference();
+                final String namasupp = edtTextnamasupp.getText().toString().trim();
+                myRef_supp = firedb.getReference();
                 myRef_supp.child("Pemasok").child(namasupp).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -146,7 +146,7 @@ public class TransPembFragment extends Fragment  {
                 String kuantitas = edtTextkuantitas.getText().toString().trim();
                 String hargabeli = edtTexthrgbeli.getText().toString().trim();
 
-                double k =Double.parseDouble(kuantitas);
+                double k  = Double.parseDouble(kuantitas);
                 double hb = Double.parseDouble(hargabeli);
                 double total = (k*hb);
 
