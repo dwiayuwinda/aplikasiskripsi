@@ -71,6 +71,7 @@ public class PembelianDB implements Serializable {
                 + " "+kdsupp+ "\n"
                 + " "+namasupp+ "\n"
                 + " "+kdbrg+ "\n"
+                + " "+namabrg+ "\n"
                 + " "+kuantitas+ "\n"
                 + " "+hrgbeli+ "\n"
                 + " "+total;

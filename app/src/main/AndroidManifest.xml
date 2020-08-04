@@ -71,10 +71,6 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".ListenOrder"
-            android:enabled="true"
-            android:exported="true"></service>
-        <service
             android:name="com.google.android.gms.measurement.AppMeasurementService"
             android:enabled="true"
             android:exported="false" />

@@ -1,10 +1,15 @@
 package com.example.aplikasiskripsi;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -36,9 +41,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class TransPenjFragment extends Fragment{
     TextView autotgl;
@@ -52,6 +59,8 @@ public class TransPenjFragment extends Fragment{
     Button btnLihat, btnCek, btnProses, btnHapus;
     FirebaseDatabase firedb;
     DatabaseReference myRef;
+    DatabaseReference myRef_penj;
+    private ArrayList<BarangDB> listbarang;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -83,14 +92,6 @@ public class TransPenjFragment extends Fragment{
         firedb = FirebaseDatabase.getInstance();
         myRef = firedb.getReference();
 
-        //Register service
-        //Intent service = new Intent(getActivity(), ListenOrder.class);
-        //startService(service);
-
-        //CallService
-        //Intent service = new Intent(getActivity(), ListenOrder.class);
-        //startService(service);
-
         btnLihat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,24 +118,29 @@ public class TransPenjFragment extends Fragment{
                         String stoktsd = tvstoktsd.getText().toString().trim();
 
                         long stsd = Long.parseLong(stoktsd);
-                        long jmlb = Long.parseLong(jmlbeli);
+                        long jmlb =Long.parseLong(jmlbeli);
                         long sisa = (stsd-jmlb);
-
-                        if (sisa <= 0){
-                            Snackbar.make(btnCek, "Stok habis, transaksi tidak dapat dilakukan", Snackbar.LENGTH_LONG).show();
-                            edtTextjmlbeli.setText(" ");
-                            tvstoksisa.setText(" ");
-                        } else if(sisa == 5 || sisa == 4 || sisa == 3 || sisa == 2 || sisa == 1){
-                            Snackbar.make(btnCek, "Stok segera habis, silahkan hubungi pemasok", Snackbar.LENGTH_LONG).show();
-                            tvstoksisa.setText(" "+sisa);
-                        } else{
-                            tvstoksisa.setText(" "+sisa);
-                        }
+                        String sisabrg = Long.toString(sisa);
 
                         double jb = Double.parseDouble(jmlbeli);
                         double hb = Double.parseDouble(hrgbrg);
                         double total = (jb*hb);
-                        totalpj.setText(" "+total);
+
+
+                        if (sisa <= 0){
+                            //Snackbar.make(btnCek, "Stok habis, transaksi tidak dapat dilakukan", Snackbar.LENGTH_LONG).show();
+                            edtTextjmlbeli.setText(" ");
+                            tvstoksisa.setText(" ");
+                            totalpj.setText(" ");
+                            notification();
+                        } else if(sisa == 5 || sisa == 4 || sisa == 3 || sisa == 2 || sisa == 1){
+                            Snackbar.make(btnCek, "Stok segera habis, silahkan hubungi pemasok", Snackbar.LENGTH_LONG).show();
+                            tvstoksisa.setText(" "+sisabrg);
+                            totalpj.setText(" "+total);
+                        } else{
+                            tvstoksisa.setText(" "+sisabrg);
+                            totalpj.setText(" "+total);
+                        }
                     }
 
                     @Override
@@ -156,7 +162,7 @@ public class TransPenjFragment extends Fragment{
                         && !isEmpty(totalpj.getText().toString())
                         && !isEmpty(edtTextnamabrg.getText().toString())
                         && !isEmpty(edtTextjmlbeli.getText().toString())
-                        && !isEmpty(tvstoksisa.getText().toString()))
+                        && !isEmpty(tvstoksisa.getText().toString())){
                     submitPenj(new PenjualanDB(autotgl.getText().toString(),
                             tvkdbrg.getText().toString(),
                             tvhrgbrg.getText().toString(),
@@ -165,11 +171,22 @@ public class TransPenjFragment extends Fragment{
                             edtTextjmlbeli.getText().toString(),
                             tvstoksisa.getText().toString()));
 
+                    String sisa = tvstoksisa.getText().toString().trim();
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("stok", sisa);
+                    final String namabrg = edtTextnamabrg.getText().toString().trim();
+                    myRef = firedb.getInstance().getReference();
+                    myRef.child("Barang").child(namabrg).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            Toast.makeText(getActivity(), "Stok telah diperbarui", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
-
-                else
+                else{
                     Snackbar.make(btnProses, "Data penjualan tidak boleh kosong",
-                            Snackbar.LENGTH_LONG).show();
+                            Snackbar.LENGTH_LONG).show();}
 
                 InputMethodManager imm = (InputMethodManager) getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -196,17 +213,34 @@ public class TransPenjFragment extends Fragment{
         return view;
     }
 
+    /**private void updateStokBarang(ArrayList<BarangDB> listbarang) {
+        listbarang.setStok(stok_brg.getText().toString().trim());
+        updateDataBarang(barang);
+    }**/
+
+    private void notification() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(getActivity(), NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "Notification")
+                .setContentText("Stok tidak mencukupi, hubungi pemasok untuk memesan kembali")
+                .setSmallIcon(R.drawable.ic_baseline_warning_24)
+                .setAutoCancel(true)
+                .setTicker("Toko Anto Berkah App");
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getActivity());
+        managerCompat.notify(999, builder.build());
+
+    }
+
     private boolean isEmpty(String s) {
         // Cek apakah ada fields yang kosong, sebelum disubmit
         return TextUtils.isEmpty(s);
     }
 
     private void submitPenj(PenjualanDB penjualan) {
-        /**
-         * Ini adalah kode yang digunakan untuk mengirimkan data ke Firebase Realtime Database
-         * dan juga kita set onSuccessListener yang berisi kode yang akan dijalankan
-         * ketika data berhasil ditambahkan
-         */
         String keyId = myRef.push().getKey();
         myRef.child("Penjualan")
                 .child(keyId)
@@ -225,4 +259,6 @@ public class TransPenjFragment extends Fragment{
                     }
                 });
     }
+
+
 }

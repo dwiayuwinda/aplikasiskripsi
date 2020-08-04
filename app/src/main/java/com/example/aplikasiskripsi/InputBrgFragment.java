@@ -36,8 +36,8 @@ public class InputBrgFragment extends Fragment {
     EditText edtTexthrgjual;
     EditText edtTextstokbrg;
     Button btnSimpan, btnHapus;
-    private DatabaseReference myRef;
-    private FirebaseDatabase fireIns;
+    DatabaseReference myRef;
+    FirebaseDatabase fireIns;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -72,7 +72,6 @@ public class InputBrgFragment extends Fragment {
                             edtTexthrgjual.getText().toString(),
                             edtTextstokbrg.getText().toString()));
 
-
                 else
                     Snackbar.make(btnSimpan, "Data barang tidak boleh kosong",
                             Snackbar.LENGTH_LONG).show();
@@ -106,11 +105,6 @@ public class InputBrgFragment extends Fragment {
     }
 
     private void submitBarang(BarangDB barang) {
-        /**
-         * Ini adalah kode yang digunakan untuk mengirimkan data ke Firebase Realtime Database
-         * dan juga kita set onSuccessListener yang berisi kode yang akan dijalankan
-         * ketika data berhasil ditambahkan
-         */
         myRef.child("Barang")
                 .child(edtTextnamabrg.getText().toString())
                 .setValue(barang)
@@ -124,7 +118,5 @@ public class InputBrgFragment extends Fragment {
                 Snackbar.make(btnSimpan, "Data berhasil ditambahkan", Snackbar.LENGTH_LONG).show();
             }
         });
-
-
     }
 }

@@ -237,8 +237,8 @@
 
                 <Button
                     android:id="@+id/btnCek"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
                     android:text="Cek"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -247,8 +247,8 @@
 
                 <Button
                     android:id="@+id/btnProses"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
                     android:textColor="@color/white"
                     android:layout_marginLeft="15dp"
                     android:text="Proses"
@@ -260,14 +260,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnHapus"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
                     android:text="Hapus"
                     android:textStyle="bold"
                     android:textColor="@color/white"

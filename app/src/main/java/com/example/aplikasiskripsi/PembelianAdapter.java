@@ -23,7 +23,7 @@ public class PembelianAdapter extends RecyclerView.Adapter<PembelianAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tgl,key,kdsupp, namasupp, kd_brg,nama_brg,kuantitas, hrg_beli, totalpem;
+        TextView tgl,key,kdsupp, namasupp, kd_brg,nama_brg, kuantitas, hrg_beli, totalpem;
         CardView cvlappemb;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,7 +50,7 @@ public class PembelianAdapter extends RecyclerView.Adapter<PembelianAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull PembelianAdapter.MyViewHolder holder, int position) {
-        final PembelianDB penjualan = riwayatpemb.get(position);
+        final PembelianDB pembelian = riwayatpemb.get(position);
         holder.tgl.setText("Tanggal: "+riwayatpemb.get(position).getTgl());
         holder.key.setText("Kode Pembelian: " + riwayatpemb.get(position).getKey());
         holder.kdsupp.setText("Kode Pemasok: " + riwayatpemb.get(position).getKdsupp());

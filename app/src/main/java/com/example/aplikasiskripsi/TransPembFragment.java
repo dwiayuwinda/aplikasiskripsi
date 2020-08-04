@@ -53,7 +53,6 @@ public class TransPembFragment extends Fragment  {
     DatabaseReference myRef;
     DatabaseReference myRef_brg;
     DatabaseReference myRef_supp;
-    IFirebaseLoadDone iFirebaseLoadDone;
     ArrayList<SupplierDB> daftarsupp;
 
 
@@ -81,7 +80,6 @@ public class TransPembFragment extends Fragment  {
         btnProses = view.findViewById(R.id.btnProses);
         btnHapus = view.findViewById(R.id.btnHapus);
 
-        //iFirebaseLoadDone = this;
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -143,8 +141,8 @@ public class TransPembFragment extends Fragment  {
                     }
                 });
 
-                String kuantitas = edtTextkuantitas.getText().toString().trim();
-                String hargabeli = edtTexthrgbeli.getText().toString().trim();
+                String kuantitas = edtTextkuantitas.getText().toString();
+                String hargabeli = edtTexthrgbeli.getText().toString();
 
                 double k  = Double.parseDouble(kuantitas);
                 double hb = Double.parseDouble(hargabeli);
@@ -227,21 +225,4 @@ public class TransPembFragment extends Fragment  {
                     }
                 });
     }
-
-    /**@Override
-    public void onFirebaseLoadSuccess(ArrayList<SupplierDB> supplierList) {
-        daftarsupp = supplierList;
-        ArrayList<String> name_list = new ArrayList<>();
-        for(SupplierDB pemasok:supplierList)
-            name_list.add(pemasok.getNama());
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, name_list);
-        spinnernamasupp.setAdapter(arrayAdapter);
-
-    }
-
-    @Override
-    public void onFirebaseLoadFailed(String message) {
-
-    }**/
 }

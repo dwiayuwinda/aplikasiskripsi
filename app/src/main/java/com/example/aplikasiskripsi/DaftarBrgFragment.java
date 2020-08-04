@@ -38,10 +38,10 @@ public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClick
     EditText edtTextSearch;
     TextView stok_brg;
     ArrayList<BarangDB> daftarbarang;
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     ItemAdapter adapter;
-    private DatabaseReference myRef, myRef_penj, myRef_pemb;
-    private FirebaseDatabase fireIns;
+    DatabaseReference myRef;
+    FirebaseDatabase fireIns;
     private LinearLayoutManager linearLayoutManager;
 
     private TabLayout tabLayout;
@@ -86,44 +86,6 @@ public class DaftarBrgFragment extends Fragment implements ItemAdapter.ItemClick
                         + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-        myRef_penj = fireIns.getReference();
-        myRef_penj.child("Penjualan").orderByChild("stsisa").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PenjualanDB penj = snapshot.getValue(PenjualanDB.class);
-                if (penj.getSisa() != null){
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), error.getDetails() + " "
-                        + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        /**String stok = stok_brg.getText().toString().trim();
-        myRef_pemb = fireIns.getReference();
-        myRef_pemb.child("Pembelian").orderByChild("").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PembelianDB pemb = snapshot.getValue(PembelianDB.class);
-                if (pemb.getKuantitas() != null){
-
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });**/
-
 
         edtTextSearch = view.findViewById(R.id.edtTextSearch);
         edtTextSearch.addTextChangedListener(new TextWatcher() {
